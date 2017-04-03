@@ -5,24 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.udacity.android.popularmovie.MainActivity">
-     <FrameLayout
-         android:layout_width="wrap_content"
-         android:layout_height="match_parent"
-         android:id="@+id/rc_movie_grid">
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:padding="16dp"
-              android:textSize="20sp"
-              android:text="@string/error_string"
-              android:visibility="invisible"/>
 
-          <ProgressBar
-              android:layout_width="42dp"
-              android:layout_height="42dp"
-              android:id="@+id/pb_loading_progress"
-              android:layout_gravity="center"
-              android:visibility="invisible" />
-     </FrameLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_movie_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/error_string"
+        android:textSize="20sp"
+        android:visibility="invisible" />
+
+    <ProgressBar
+        android:id="@+id/pb_loading_progress"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
 </FrameLayout>
