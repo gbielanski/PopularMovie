@@ -3,13 +3,12 @@ package com.udacity.android.popularmovie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler {
 
     private RecyclerView mRecyclerView;
     private TextView mErrorMessageTextView;
@@ -25,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
         mProgresBar = (ProgressBar)findViewById(R.id.pb_loading_progress);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MoviePosterAdapter();
+        mAdapter = new MoviePosterAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        Log.v("Movie key", "Movie key " + getString(R.string.movie_db_key));
+    }
+
+    @Override
+    public void moviePosterOnClick() {
+        Toast.makeText(this, "New activity will be started", Toast.LENGTH_LONG).show();
     }
 }

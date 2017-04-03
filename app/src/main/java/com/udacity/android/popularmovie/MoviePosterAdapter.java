@@ -12,8 +12,19 @@ import android.widget.ImageView;
  */
 
 public class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieViewHolder> {
+
+    private final OnClickMoviePosterHandler mClickHandler;
+
+    public MoviePosterAdapter(OnClickMoviePosterHandler mClickHandler) {
+        this.mClickHandler = mClickHandler;
+    }
+
+    interface OnClickMoviePosterHandler {
+        void moviePosterOnClick();
+    }
+
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         Context ctx = parent.getContext();
         int posterGridItemId = R.layout.poster_grid_item;
         LayoutInflater inflater = LayoutInflater.from(ctx);
@@ -32,12 +43,18 @@ public class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.
         return 10;
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final ImageView mPosterImageView;
 
         public MovieViewHolder(View itemView) {
             super(itemView);
             mPosterImageView  = (ImageView)itemView.findViewById(R.id.img_poster_item);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mClickHandler.moviePosterOnClick();
         }
     }
 }

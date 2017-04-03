@@ -6,6 +6,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/img_poster_item"
         android:src="@drawable/after_cookie"
-        android:scaleType="centerInside"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:adjustViewBounds = "true"/>
 </FrameLayout>
