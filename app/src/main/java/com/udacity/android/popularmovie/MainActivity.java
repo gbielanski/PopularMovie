@@ -23,9 +23,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView)findViewById(R.id.rc_movie_grid);
         mErrorMessageTextView = (TextView)findViewById(R.id.tv_error_message);
         mProgresBar = (ProgressBar)findViewById(R.id.pb_loading_progress);
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        // COMPLETED (41) Set the layoutManager on mRecyclerView
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter();
         mRecyclerView.setAdapter(mAdapter);
