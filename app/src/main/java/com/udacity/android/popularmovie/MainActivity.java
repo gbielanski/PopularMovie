@@ -1,5 +1,6 @@
 package com.udacity.android.popularmovie;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 
     @Override
     public void moviePosterOnClick() {
-        Toast.makeText(this, "New activity will be started", Toast.LENGTH_LONG).show();
+        Class movieDetailedClass = MovieDetailsActivity.class;
+        Intent intent = new Intent(this, movieDetailedClass);
+        startActivity(intent);
+//        Toast.makeText(this, "New activity will be started", Toast.LENGTH_LONG).show();
     }
 }
