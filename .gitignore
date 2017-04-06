@@ -1,9 +1,7 @@
-
 # Created by https://www.gitignore.io/api/androidstudio
 
 ### AndroidStudio ###
 # Covers files to be ignored for android development using Android Studio.
-
 # xml containing keys to APIs
 api_keys.xml
 
@@ -130,11 +128,7 @@ crashlytics-build.properties
 fabric.properties
 
 # End of https://www.gitignore.io/api/androidstudio
-
-
-
-
-
-
-
-
+.idea/copyright/
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/
+app/libs/

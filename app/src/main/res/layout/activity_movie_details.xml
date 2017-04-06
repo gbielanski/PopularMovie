@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.udacity.android.popularmovie.MovieDetailsActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
@@ -18,12 +17,13 @@
             android:layout_height="wrap_content"
             android:text="Moview Titile"
             android:textSize="24sp"
-            android:paddingRight="8dp"/>
+            android:paddingRight="8dp"
+            android:id="@+id/tv_movie_title"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2012"/>
-
+            android:text="2012"
+            android:id="@+id/tv_movie_release_date"/>
     </LinearLayout>
 
     <LinearLayout
@@ -34,10 +34,11 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="180dp"
             android:layout_weight="1"
             android:scaleType="centerInside"
-            android:src="@drawable/after_cookie" />
+            android:src="@drawable/after_cookie"
+            android:id="@+id/img_poster_item_in_details"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -47,24 +48,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="8dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="8dp"
-                    android:text="7" />
+                    android:text="7"
+                    android:id="@+id/tv_rating"/>
 
                 <RatingBar
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="6"
-                    android:rating="2" />
+                    android:numStars="10"
+                    android:rating="2"
+                    android:id="@+id/rb_rating"/>
             </LinearLayout>
             <TextView
                 android:layout_marginTop="16dp"
+                android:layout_marginLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/tv_overview"
                 android:text="Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview Movie ovierview "/>
 
         </LinearLayout>
