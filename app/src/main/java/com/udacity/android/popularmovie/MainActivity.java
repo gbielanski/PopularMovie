@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.google.gson.Gson;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        new MovieQueryTask().execute(getString(R.string.movie_db_key));
-        Log.v("movieQueryString", NetworkUtils.getUrlTheMostPopular(getString(R.string.movie_db_key)).toString());
+        Log.v("movieQueryString", NetworkUtils.getUrlHighestRated(getString(R.string.movie_db_key)).toString());
+        new MovieQueryTask().execute(getString(R.string.movie_db_key), "popular");
     }
 
     @Override
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         Intent intent = new Intent(this, movieDetailedClass);
         intent.putExtra("MOVIE_DETAILS", mAdapter.mMovieData.get(position));
         startActivity(intent);
-//        Toast.makeText(this, "New activity will be started", Toast.LENGTH_LONG).show();
     }
 
     public class MovieQueryTask extends AsyncTask<String, Void, String>{
@@ -55,9 +56,13 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         @Override
         protected String doInBackground(String... params) {
             String apiKey = params[0];
+            String sortType = params[1];
             String movieQueryResult = null;
             try {
-                movieQueryResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getUrlTheMostPopular(apiKey));
+                if (sortType.equals("rate"))
+                    movieQueryResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getUrlHighestRated(apiKey));
+                else
+                    movieQueryResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getUrlTheMostPopular(apiKey));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,5 +99,26 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
                 mAdapter.addMovieData(movieDataArray);
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sort_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.most_popular){
+            new MovieQueryTask().execute(getString(R.string.movie_db_key), "popular");
+            Toast.makeText(this, "most popular", Toast.LENGTH_LONG).show();
+            return true;
+        }else if (item.getItemId() == R.id.highest_rate){
+            new MovieQueryTask().execute(getString(R.string.movie_db_key), "rate");
+            Toast.makeText(this, "highest rate", Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

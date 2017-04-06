@@ -1,6 +1,7 @@
 package com.udacity.android.popularmovie;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +19,7 @@ public class NetworkUtils {
     private static final String THE_MOST_POPULAR_URL_STRING =
             "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc";
     public static final String THE_HEIGHEST_RATED_URL_STRING =
-            "https://api.themoviedb.org/3/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc";
+            "https://api.themoviedb.org/3/discover/movie?certification_country=US&certification=R&sort_by=vote_average.desc";
 
     public static URL getUrlTheMostPopular(String api_key){
         URL url = null;
@@ -33,12 +34,16 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String getUrlHighestRated(){
-
+    public static URL getUrlHighestRated(String api_key){
         URL url = null;
 
-
-        return THE_HEIGHEST_RATED_URL_STRING;
+        Uri uri = Uri.parse(THE_HEIGHEST_RATED_URL_STRING).buildUpon().appendQueryParameter("api_key", api_key).build();
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {

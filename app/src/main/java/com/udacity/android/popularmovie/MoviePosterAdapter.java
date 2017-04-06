@@ -11,9 +11,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import static android.media.CamcorderProfile.get;
-import static java.lang.System.load;
-
 /**
  * Created by Grzegorz on 01.04.2017.
  */
