@@ -41,6 +41,9 @@ class NetworkUtils {
         return url;
     }
 
+    /*
+    *  Function copied from Udacity course
+    * */
     static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
