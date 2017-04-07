@@ -3,63 +3,59 @@ package com.udacity.android.popularmovie;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Grzegorz on 05.04.2017.
- */
 class MovieData implements Parcelable{
-    private String original_title;
-    private String poster_path;
+    private String originalTitle;
+    private String posterPath;
     private String overview;
-    private Double vote_average;
-    private String release_date;
+    private Double voteAverage;
+    private String releaseDate;
 
-    public String getOriginal_title() {
-        return original_title;
+    String getOriginalTitle() {
+        return originalTitle;
     }
 
-    public void setOriginal_title(String original_title) {
-        this.original_title = original_title;
+    void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
-    public String getPoster_path() {
-        return poster_path;
+    String getPosterPath() {
+        return posterPath;
     }
 
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
+    void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
-    public String getOverview() {
+    String getOverview() {
         return overview;
     }
 
-    public void setOverview(String overview) {
+    void setOverview(String overview) {
         this.overview = overview;
     }
 
-    public Double getVote_average() {
-        return vote_average;
+    Double getVoteAverage() {
+        return voteAverage;
     }
 
-    public void setVote_average(Double vote_average) {
-        this.vote_average = vote_average;
+    void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
-    public String getRelease_date() {
-        return release_date;
+    String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    protected MovieData(Parcel in) {
-        original_title = in.readString();
-        poster_path = in.readString();
+    private MovieData(Parcel in) {
+        originalTitle = in.readString();
+        posterPath = in.readString();
         overview = in.readString();
-        vote_average = in.readDouble();
-        release_date = in.readString();
-
+        voteAverage = in.readDouble();
+        releaseDate = in.readString();
     }
 
     public static final Creator<MovieData> CREATOR = new Creator<MovieData>() {
@@ -74,15 +70,13 @@ class MovieData implements Parcelable{
         }
     };
 
-    public MovieData() {
-
-    }
+    MovieData() {}
 
     @Override
     public String toString() {
-        return "original_title : " + original_title +
-                ", release_date : " + release_date +
-                " vote_average :" + vote_average;
+        return "originalTitle : " + originalTitle +
+                ", releaseDate : " + releaseDate +
+                " voteAverage :" + voteAverage;
     }
 
     @Override
@@ -92,10 +86,10 @@ class MovieData implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(original_title);
-        dest.writeString(poster_path);
+        dest.writeString(originalTitle);
+        dest.writeString(posterPath);
         dest.writeString(overview);
-        dest.writeDouble(vote_average);
-        dest.writeString(release_date);
+        dest.writeDouble(voteAverage);
+        dest.writeString(releaseDate);
     }
 }

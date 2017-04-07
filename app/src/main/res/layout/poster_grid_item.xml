@@ -5,4 +5,4 @@
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
     android:adjustViewBounds="true"
-    android:src="@drawable/after_cookie" />
+    android:contentDescription="@string/movie_poster_description"/>
