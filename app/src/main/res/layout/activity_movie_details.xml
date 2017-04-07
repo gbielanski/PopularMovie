@@ -15,8 +15,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
             android:id="@+id/tv_movie_title"/>
         <TextView
             android:layout_width="wrap_content"
@@ -52,8 +50,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingRight="8dp"
-                    android:paddingLeft="8dp"
                     android:id="@+id/tv_rating"/>
 
                 <RatingBar
@@ -61,7 +57,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="10"
-                    android:id="@+id/rb_rating"/>
+                    android:id="@+id/rb_rating"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    />
             </LinearLayout>
             <TextView
                 android:layout_marginTop="16dp"

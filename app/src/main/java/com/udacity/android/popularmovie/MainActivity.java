@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,15 +32,18 @@ import static com.udacity.android.popularmovie.MovieUtils.SORT_TYPE_RATE;
 public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler {
 
     private MoviePosterAdapter mAdapter;
+    private TextView mErrorMessageTextView;
+    private ProgressBar mProgressBar;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.rc_movie_grid);
-        TextView mErrorMessageTextView = (TextView) findViewById(R.id.tv_error_message);
-        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_progress);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rc_movie_grid);
+        mErrorMessageTextView = (TextView) findViewById(R.id.tv_error_message);
+        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_progress);
         int spanCount = 3;
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -56,7 +60,19 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         startActivity(intent);
     }
 
+    private void showErrorMessage(){
+        mErrorMessageTextView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
+
+    }
+
     private class MovieQueryTask extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -76,7 +92,16 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 
         @Override
         protected void onPostExecute(String movieQueryResult) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            if(movieQueryResult!=null)
+                showMovieData(movieQueryResult);
+            else
+                showErrorMessage();
+        }
 
+        private void showMovieData(String movieQueryResult) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mErrorMessageTextView.setVisibility(View.INVISIBLE);
             ArrayList<MovieData> movieDataArray = new ArrayList<>();
             try {
                 JSONObject movieQueryJSON = new JSONObject(movieQueryResult);
