@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,12 +45,21 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         mRecyclerView = (RecyclerView) findViewById(R.id.rc_movie_grid);
         mErrorMessageTextView = (TextView) findViewById(R.id.tv_error_message);
         mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_progress);
-        int spanCount = 3;
-        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         new MovieQueryTask().execute(getString(R.string.movie_db_key), SORT_TYPE_POPULAR);
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthDivider = 342;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
     }
 
     @Override
