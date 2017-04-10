@@ -15,9 +15,9 @@
         android:id="@+id/tv_error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/padding_large"
         android:text="@string/error_string"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_size_large"
         android:visibility="invisible"
         android:layout_gravity="center"/>
 
@@ -28,5 +28,4 @@
         android:layout_gravity="center"
         android:visibility="invisible"
         />
-
 </merge>

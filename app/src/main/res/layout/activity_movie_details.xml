@@ -9,12 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/padding_medium">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_size_extra_large"
             android:id="@+id/tv_movie_title"/>
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="@dimen/padding_medium">
 
         <ImageView
             android:layout_width="0dp"
@@ -45,8 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp">
+                android:layout_marginLeft="@dimen/margine_medium"
+                android:layout_marginRight="@dimen/margine_medium">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,17 +58,17 @@
                     android:layout_height="wrap_content"
                     android:numStars="10"
                     android:id="@+id/rb_rating"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="@dimen/margine_medium"
+                    android:layout_marginLeft="@dimen/margine_medium"
                     />
             </LinearLayout>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="@dimen/margine_large"
+                    android:layout_marginLeft="@dimen/margine_medium"
+                    android:layout_marginRight="@dimen/margine_medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_overview"/>
