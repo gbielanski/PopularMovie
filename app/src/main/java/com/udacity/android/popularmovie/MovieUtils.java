@@ -6,9 +6,9 @@ class MovieUtils {
     static final String SORT_TYPE_POPULAR = "POPULAR";
     static final String EXTRA_MOVIE_DETAILS = "MOVIE_DETAILS";
     static final String THE_MOST_POPULAR_URL_STRING =
-            "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc";
+            "https://api.themoviedb.org/3/movie/popular";
     static final String THE_HIGHEST_RATED_URL_STRING =
-            "https://api.themoviedb.org/3/discover/movie?certification_country=US&certification=R&sort_by=vote_average.desc";
+            "https://api.themoviedb.org/3/movie/top_rated";
     static final String API_KEY = "api_key";
     static final String PATH = "http://image.tmdb.org/t/p/";
     static final String IMG_SIZE = "w342";
