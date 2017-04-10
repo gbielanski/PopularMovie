@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PopularMovie</string>
     <string name="error_string">Error please refresh</string>
+    <string name="error_string_connection">Connection problem</string>
     <string name="movie_poster_description">movie poster taken from movie db</string>
     <string name="most_popular">most popular</string>
     <string name="highest_rate">highest rate</string>

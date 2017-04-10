@@ -1,7 +1,9 @@
 package com.udacity.android.popularmovie;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.udacity.android.popularmovie.MovieUtils.EXTRA_MOVIE_DETAILS;
@@ -49,7 +50,23 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        new MovieQueryTask().execute(getString(R.string.movie_db_key), SORT_TYPE_POPULAR);
+        fetchMovieData(SORT_TYPE_POPULAR);
+    }
+
+    private void fetchMovieData(String sortType) {
+        if (isOnline()) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            new MovieQueryTask(new FetchMovieDataTaskCompleteListener())
+                    .execute(getString(R.string.movie_db_key), sortType);
+        } else
+            showErrorMessage(getString(R.string.error_string_connection));
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private int numberOfColumns() {
@@ -70,43 +87,23 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         startActivity(intent);
     }
 
-    private void showErrorMessage(){
+    private void showErrorMessage(String errorMsg){
+        mErrorMessageTextView.setText(errorMsg);
         mErrorMessageTextView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.INVISIBLE);
 
     }
 
-    private class MovieQueryTask extends AsyncTask<String, Void, String>{
-
+    public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String>
+    {
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String apiKey = params[0];
-            String sortType = params[1];
-            String movieQueryResult = null;
-            try {
-                if (sortType.equals(SORT_TYPE_RATE))
-                    movieQueryResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getUrlHighestRated(apiKey));
-                else
-                    movieQueryResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getUrlTheMostPopular(apiKey));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return movieQueryResult;
-        }
-
-        @Override
-        protected void onPostExecute(String movieQueryResult) {
+        public void onTaskComplete(String movieQueryResult)
+        {
             mProgressBar.setVisibility(View.INVISIBLE);
             if(movieQueryResult!=null)
                 showMovieData(movieQueryResult);
             else
-                showErrorMessage();
+                showErrorMessage(getString(R.string.error_string));
         }
 
         private void showMovieData(String movieQueryResult) {
@@ -142,11 +139,11 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.most_popular){
-            new MovieQueryTask().execute(getString(R.string.movie_db_key), SORT_TYPE_POPULAR);
+        if (item.getItemId() == R.id.most_popular) {
+            fetchMovieData(SORT_TYPE_POPULAR);
             return true;
-        }else if (item.getItemId() == R.id.highest_rate){
-            new MovieQueryTask().execute(getString(R.string.movie_db_key), SORT_TYPE_RATE);
+        } else if (item.getItemId() == R.id.highest_rate) {
+            fetchMovieData(SORT_TYPE_RATE);
             return true;
         }
         return super.onOptionsItemSelected(item);
