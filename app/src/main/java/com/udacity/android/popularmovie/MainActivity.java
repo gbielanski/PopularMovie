@@ -21,6 +21,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.udacity.android.popularmovie.MovieUtils.EXTRA_MOVIE_DETAILS;
 import static com.udacity.android.popularmovie.MovieUtils.JSON_ORIGINAL_TITLE;
 import static com.udacity.android.popularmovie.MovieUtils.JSON_OVERVIEW;
@@ -34,18 +37,15 @@ import static com.udacity.android.popularmovie.MovieUtils.SORT_TYPE_RATE;
 public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler {
 
     private MoviePosterAdapter mAdapter;
-    private TextView mErrorMessageTextView;
-    private ProgressBar mProgressBar;
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.tv_error_message) TextView mErrorMessageTextView;
+    @BindView(R.id.pb_loading_progress) ProgressBar mProgressBar;
+    @BindView(R.id.rc_movie_grid) RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.rc_movie_grid);
-        mErrorMessageTextView = (TextView) findViewById(R.id.tv_error_message);
-        mProgressBar = (ProgressBar) findViewById(R.id.pb_loading_progress);
+        ButterKnife.bind(this);
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter(this);
