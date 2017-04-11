@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import static com.udacity.android.popularmovie.MovieUtils.EXTRA_MOVIE_DETAILS;
 import static com.udacity.android.popularmovie.MovieUtils.IMG_SIZE;
 import static com.udacity.android.popularmovie.MovieUtils.PATH;
-import static com.udacity.android.popularmovie.R.id.tv_movie_title;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.tv_movie_title) TextView tv_movie_title;
