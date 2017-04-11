@@ -41,6 +41,8 @@ class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieVi
         MovieData movieData = mMovieData.get(position);
         Picasso.with(holder.mPosterImageView.getContext())
                 .load(PATH + IMG_SIZE + movieData.getPosterPath())
+                .error(R.drawable.image_not_available)
+                .placeholder(R.drawable.placeholder)
                 .into(holder.mPosterImageView);
     }
 
