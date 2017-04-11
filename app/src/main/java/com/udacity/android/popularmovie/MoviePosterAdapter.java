@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.udacity.android.popularmovie.MovieUtils.IMG_SIZE;
 import static com.udacity.android.popularmovie.MovieUtils.PATH;
@@ -59,11 +60,11 @@ class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieVi
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private final ImageView mPosterImageView;
+        @BindView(R.id.img_poster_item) ImageView mPosterImageView;
 
         MovieViewHolder(View itemView) {
             super(itemView);
-            mPosterImageView = (ImageView)itemView.findViewById(R.id.img_poster_item);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
