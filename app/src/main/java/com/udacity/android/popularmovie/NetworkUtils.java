@@ -12,6 +12,9 @@ import java.util.Scanner;
 import static com.udacity.android.popularmovie.MovieUtils.API_KEY;
 import static com.udacity.android.popularmovie.MovieUtils.THE_HIGHEST_RATED_URL_STRING;
 import static com.udacity.android.popularmovie.MovieUtils.THE_MOST_POPULAR_URL_STRING;
+import static com.udacity.android.popularmovie.MovieUtils.THE_MOVIE_DB_URL_STRING;
+import static com.udacity.android.popularmovie.MovieUtils.THE_MOVIE_REVIEWS_URL_STRING;
+import static com.udacity.android.popularmovie.MovieUtils.THE_MOVIE_TRAILERS_URL_STRING;
 
 
 class NetworkUtils {
@@ -41,6 +44,35 @@ class NetworkUtils {
         return url;
     }
 
+    static URL getUrlMovieTrailers(String movieId, String apiKey){
+        URL url = null;
+        Uri uri = Uri.parse(THE_MOVIE_DB_URL_STRING).buildUpon()
+                .appendPath(movieId)
+                .appendPath(THE_MOVIE_TRAILERS_URL_STRING)
+                .appendQueryParameter(API_KEY, apiKey)
+                .build();
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL getUrlMovieReviews(String movieId, String apiKey) {
+        URL url = null;
+        Uri uri = Uri.parse(THE_MOVIE_DB_URL_STRING).buildUpon()
+                .appendPath(movieId)
+                .appendPath(THE_MOVIE_REVIEWS_URL_STRING)
+                .appendQueryParameter(API_KEY, apiKey)
+                .build();
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
     /*
     *  Function copied from Udacity course
     * */
@@ -62,4 +94,6 @@ class NetworkUtils {
             urlConnection.disconnect();
         }
     }
+
+
 }

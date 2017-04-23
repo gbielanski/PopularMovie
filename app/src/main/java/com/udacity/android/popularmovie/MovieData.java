@@ -9,6 +9,7 @@ class MovieData implements Parcelable{
     private String overview;
     private Double voteAverage;
     private String releaseDate;
+    private Integer id;
 
     String getOriginalTitle() {
         return originalTitle;
@@ -50,12 +51,21 @@ class MovieData implements Parcelable{
         this.releaseDate = releaseDate;
     }
 
+    Integer getId() {
+        return id;
+    }
+
+    void setId(Integer id) {
+        this.id = id;
+    }
+
     private MovieData(Parcel in) {
         originalTitle = in.readString();
         posterPath = in.readString();
         overview = in.readString();
         voteAverage = in.readDouble();
         releaseDate = in.readString();
+        id = in.readInt();
     }
 
     public static final Creator<MovieData> CREATOR = new Creator<MovieData>() {
@@ -76,7 +86,8 @@ class MovieData implements Parcelable{
     public String toString() {
         return "originalTitle : " + originalTitle +
                 ", releaseDate : " + releaseDate +
-                " voteAverage :" + voteAverage;
+                " voteAverage :" + voteAverage +
+                " id :" + id;
     }
 
     @Override
@@ -91,5 +102,6 @@ class MovieData implements Parcelable{
         dest.writeString(overview);
         dest.writeDouble(voteAverage);
         dest.writeString(releaseDate);
+        dest.writeInt(id);
     }
 }

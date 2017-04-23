@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.udacity.android.popularmovie.MovieUtils.EXTRA_MOVIE_DETAILS;
+import static com.udacity.android.popularmovie.MovieUtils.JSON_MOVIE_ID;
 import static com.udacity.android.popularmovie.MovieUtils.JSON_ORIGINAL_TITLE;
 import static com.udacity.android.popularmovie.MovieUtils.JSON_OVERVIEW;
 import static com.udacity.android.popularmovie.MovieUtils.JSON_POSTER_PATH;
@@ -94,42 +96,43 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 
     }
 
-    public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String>
-    {
-        @Override
-        public void onTaskComplete(String movieQueryResult)
+        public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String>
         {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            if(movieQueryResult!=null)
-                showMovieData(movieQueryResult);
-            else
-                showErrorMessage(getString(R.string.error_string));
-        }
-
-        private void showMovieData(String movieQueryResult) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mErrorMessageTextView.setVisibility(View.INVISIBLE);
-            ArrayList<MovieData> movieDataArray = new ArrayList<>();
-            try {
-                JSONObject movieQueryJSON = new JSONObject(movieQueryResult);
-                JSONArray movieJSONArray = movieQueryJSON.getJSONArray(JSON_RESULTS);
-                for(int i =0; i<movieJSONArray.length(); i++){
-                    JSONObject movieJSONObject = movieJSONArray.getJSONObject(i);
-                    MovieData movieData = new MovieData();
-                    movieData.setOriginalTitle(movieJSONObject.getString(JSON_ORIGINAL_TITLE));
-                    movieData.setPosterPath(movieJSONObject.getString(JSON_POSTER_PATH));
-                    movieData.setOverview(movieJSONObject.getString(JSON_OVERVIEW));
-                    movieData.setVoteAverage(movieJSONObject.getDouble(JSON_VOTE_AVERAGE));
-                    movieData.setReleaseDate(movieJSONObject.getString(JSON_RELEASE_DATE));
-                    movieDataArray.add(movieData);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            @Override
+            public void onTaskComplete(String movieQueryResult)
+            {
+                mProgressBar.setVisibility(View.INVISIBLE);
+                if(movieQueryResult!=null)
+                    showMovieData(movieQueryResult);
+                else
+                    showErrorMessage(getString(R.string.error_string));
             }
-            if(movieDataArray.size() > 0)
-                mAdapter.addMovieData(movieDataArray);
+
+            private void showMovieData(String movieQueryResult) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mErrorMessageTextView.setVisibility(View.INVISIBLE);
+                ArrayList<MovieData> movieDataArray = new ArrayList<>();
+                try {
+                    JSONObject movieQueryJSON = new JSONObject(movieQueryResult);
+                    JSONArray movieJSONArray = movieQueryJSON.getJSONArray(JSON_RESULTS);
+                    for(int i =0; i<movieJSONArray.length(); i++){
+                        JSONObject movieJSONObject = movieJSONArray.getJSONObject(i);
+                        MovieData movieData = new MovieData();
+                        movieData.setOriginalTitle(movieJSONObject.getString(JSON_ORIGINAL_TITLE));
+                        movieData.setPosterPath(movieJSONObject.getString(JSON_POSTER_PATH));
+                        movieData.setOverview(movieJSONObject.getString(JSON_OVERVIEW));
+                        movieData.setVoteAverage(movieJSONObject.getDouble(JSON_VOTE_AVERAGE));
+                        movieData.setReleaseDate(movieJSONObject.getString(JSON_RELEASE_DATE));
+                        movieData.setId(movieJSONObject.getInt(JSON_MOVIE_ID));
+                        movieDataArray.add(movieData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(movieDataArray.size() > 0)
+                    mAdapter.addMovieData(movieDataArray);
+            }
         }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
