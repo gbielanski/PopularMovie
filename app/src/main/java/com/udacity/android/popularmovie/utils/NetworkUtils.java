@@ -97,4 +97,13 @@ public class NetworkUtils {
     }
 
 
+    public static String getUrlMovieTrailerPreview(String trailerKey) {
+        return MovieUtils.MOVIE_TRAILER_PREVIEW_BASE_URL + trailerKey +
+                MovieUtils.MOVIE_TRAILER_PREVIEW_PATCH_URL;
+    }
+
+    public static String getUrlMovieTrailerVideo(String trailerKey) {
+        return MovieUtils.MOVIE_TRAILER_VIDEO_BASE_URL + trailerKey;
+    }
+
 }

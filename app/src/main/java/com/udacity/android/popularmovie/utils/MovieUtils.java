@@ -22,5 +22,8 @@ public class MovieUtils {
     public static final String JSON_VOTE_AVERAGE = "vote_average";
     public static final String JSON_RELEASE_DATE = "release_date";
     public static final String JSON_MOVIE_ID = "id";
+    public static final String MOVIE_TRAILER_PREVIEW_BASE_URL = "https://img.youtube.com/vi/";
+    public static final String MOVIE_TRAILER_PREVIEW_PATCH_URL = "/default.jpg";
+    public static final String MOVIE_TRAILER_VIDEO_BASE_URL = "http://www.youtube.com/watch?v=";
 
 }
