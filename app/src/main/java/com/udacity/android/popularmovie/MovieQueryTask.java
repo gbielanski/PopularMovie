@@ -2,9 +2,11 @@ package com.udacity.android.popularmovie;
 
 import android.os.AsyncTask;
 
+import com.udacity.android.popularmovie.utils.NetworkUtils;
+
 import java.io.IOException;
 
-import static com.udacity.android.popularmovie.MovieUtils.SORT_TYPE_RATE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_RATE;
 
 class MovieQueryTask extends AsyncTask<String, Void, String> {
 

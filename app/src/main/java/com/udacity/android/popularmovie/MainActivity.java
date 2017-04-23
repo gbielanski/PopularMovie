@@ -9,12 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.udacity.android.popularmovie.data.MovieData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,16 +26,16 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.udacity.android.popularmovie.MovieUtils.EXTRA_MOVIE_DETAILS;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_MOVIE_ID;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_ORIGINAL_TITLE;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_OVERVIEW;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_POSTER_PATH;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_RELEASE_DATE;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_RESULTS;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_VOTE_AVERAGE;
-import static com.udacity.android.popularmovie.MovieUtils.SORT_TYPE_POPULAR;
-import static com.udacity.android.popularmovie.MovieUtils.SORT_TYPE_RATE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.EXTRA_MOVIE_DETAILS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_MOVIE_ID;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_ORIGINAL_TITLE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_OVERVIEW;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_POSTER_PATH;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_RELEASE_DATE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_RESULTS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_VOTE_AVERAGE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_POPULAR;
+import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_RATE;
 
 public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler {
 

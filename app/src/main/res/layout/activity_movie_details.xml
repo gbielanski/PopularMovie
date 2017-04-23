@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -62,9 +65,7 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     />
             </LinearLayout>
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginLeft="@dimen/margin_medium"
@@ -72,7 +73,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_overview"/>
-            </ScrollView>
         </LinearLayout>
     </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rc_trailers"/>
 </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

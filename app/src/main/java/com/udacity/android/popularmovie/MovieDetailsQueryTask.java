@@ -2,10 +2,12 @@ package com.udacity.android.popularmovie;
 
 import android.os.AsyncTask;
 
+import com.udacity.android.popularmovie.utils.NetworkUtils;
+
 import java.io.IOException;
 
-import static com.udacity.android.popularmovie.MovieUtils.MOVIE_DETAIL_REVIEWS;
-import static com.udacity.android.popularmovie.MovieUtils.MOVIE_DETAIL_TRAILERS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.MOVIE_DETAIL_REVIEWS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.MOVIE_DETAIL_TRAILERS;
 
 class MovieDetailsQueryTask extends AsyncTask<String, Void, String> {
 

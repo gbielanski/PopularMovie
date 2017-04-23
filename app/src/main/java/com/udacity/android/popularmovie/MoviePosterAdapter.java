@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.popularmovie.data.MovieData;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.udacity.android.popularmovie.MovieUtils.IMG_SIZE;
-import static com.udacity.android.popularmovie.MovieUtils.PATH;
+import static com.udacity.android.popularmovie.utils.MovieUtils.IMG_SIZE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.PATH;
 
 class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieViewHolder> {
 

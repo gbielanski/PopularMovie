@@ -1,9 +1,9 @@
-package com.udacity.android.popularmovie;
+package com.udacity.android.popularmovie.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class MovieData implements Parcelable{
+public class MovieData implements Parcelable{
     private String originalTitle;
     private String posterPath;
     private String overview;
@@ -11,51 +11,51 @@ class MovieData implements Parcelable{
     private String releaseDate;
     private Integer id;
 
-    String getOriginalTitle() {
+    public String getOriginalTitle() {
         return originalTitle;
     }
 
-    void setOriginalTitle(String originalTitle) {
+    public void setOriginalTitle(String originalTitle) {
         this.originalTitle = originalTitle;
     }
 
-    String getPosterPath() {
+    public String getPosterPath() {
         return posterPath;
     }
 
-    void setPosterPath(String posterPath) {
+    public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
-    String getOverview() {
+    public String getOverview() {
         return overview;
     }
 
-    void setOverview(String overview) {
+    public void setOverview(String overview) {
         this.overview = overview;
     }
 
-    Double getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    void setVoteAverage(Double voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 
-    String getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
-    Integer getId() {
+    public Integer getId() {
         return id;
     }
 
-    void setId(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,7 +80,7 @@ class MovieData implements Parcelable{
         }
     };
 
-    MovieData() {}
+    public MovieData() {}
 
     @Override
     public String toString() {

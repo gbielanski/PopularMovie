@@ -1,10 +1,10 @@
-package com.udacity.android.popularmovie;
+package com.udacity.android.popularmovie.data;
 
 /**
  * Created by Grzegorz on 22.04.2017.
  */
 
-class MovieReview {
+public class MovieReview {
     String author;
     String content;
 

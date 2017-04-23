@@ -8,6 +8,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.popularmovie.data.MovieData;
+import com.udacity.android.popularmovie.data.MovieReview;
+import com.udacity.android.popularmovie.data.MovieTrailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,12 +21,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.udacity.android.popularmovie.MovieUtils.EXTRA_MOVIE_DETAILS;
-import static com.udacity.android.popularmovie.MovieUtils.IMG_SIZE;
-import static com.udacity.android.popularmovie.MovieUtils.JSON_RESULTS;
-import static com.udacity.android.popularmovie.MovieUtils.MOVIE_DETAIL_REVIEWS;
-import static com.udacity.android.popularmovie.MovieUtils.MOVIE_DETAIL_TRAILERS;
-import static com.udacity.android.popularmovie.MovieUtils.PATH;
+import static com.udacity.android.popularmovie.utils.MovieUtils.EXTRA_MOVIE_DETAILS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.IMG_SIZE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_RESULTS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.MOVIE_DETAIL_REVIEWS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.MOVIE_DETAIL_TRAILERS;
+import static com.udacity.android.popularmovie.utils.MovieUtils.PATH;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.tv_movie_title) TextView tv_movie_title;
@@ -74,7 +77,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     JSONObject movieJSONObject = movieJSONArray.getJSONObject(i);
                     String ytKey = movieJSONObject.getString("key");
                     MovieTrailer movieTrailer = new MovieTrailer();
-                    movieTrailer.setYoutubeKey(ytKey);
+                    movieTrailer.setTrailerKey(ytKey);
                     movieTrailers.add(movieTrailer);
                 }
                 for (MovieTrailer mt :movieTrailers) {
