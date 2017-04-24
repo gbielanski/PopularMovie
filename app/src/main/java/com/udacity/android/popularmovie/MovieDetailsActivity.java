@@ -1,7 +1,6 @@
 package com.udacity.android.popularmovie;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +37,7 @@ import static com.udacity.android.popularmovie.utils.MovieUtils.PATH;
 
 public class MovieDetailsActivity extends AppCompatActivity implements MovieTrailersAdapter.OnClickMovieTrailerHandler {
     private MovieTrailersAdapter mTrailersAdapter;
+    private MovieReviewsAdapter mReviewsAdapter;
 
     @BindView(R.id.tv_movie_title) TextView tv_movie_title;
     @BindView(R.id.tv_movie_release_date) TextView tv_movie_release_date;
@@ -46,6 +46,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieTrai
     @BindView(R.id.rb_rating) RatingBar rbRating;
     @BindView(R.id.tv_overview) TextView tvOverview;
     @BindView(R.id.rc_trailers) RecyclerView rcTrailers;
+    @BindView(R.id.rc_reviews) RecyclerView rcReviews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieTrai
         rcTrailers.setLayoutManager(horizontalLinearLayoutManager);
         mTrailersAdapter = new MovieTrailersAdapter(this);
         rcTrailers.setAdapter(mTrailersAdapter);
+
+        LinearLayoutManager verticalLinearLayoutManager = new LinearLayoutManager(this, VERTICAL, false);
+        rcReviews.setLayoutManager(verticalLinearLayoutManager);
+        mReviewsAdapter = new MovieReviewsAdapter();
+        rcReviews.setAdapter(mReviewsAdapter);
 
         String ApiKey = getString(R.string.movie_db_key);
         String movieId = movieData.getId().toString();
@@ -111,10 +117,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieTrai
                     movieTrailer.setTrailerKey(ytKey);
                     movieTrailers.add(movieTrailer);
                 }
-                for (MovieTrailer mt : movieTrailers) {
-                    Log.v("MOVIE_DETAILS_TRAILER", mt.toString());
-                }
-
                 mTrailersAdapter.setMovieTrailersData(movieTrailers);
 
             } catch (JSONException e) {
@@ -141,15 +143,15 @@ public class MovieDetailsActivity extends AppCompatActivity implements MovieTrai
                     JSONObject movieJSONObject = movieJSONArray.getJSONObject(i);
                     String author = movieJSONObject.getString("author");
                     String content = movieJSONObject.getString("content");
-                    MovieReview movieReview = new MovieReview();
-                    movieReview.setAuthor(author);
-                    movieReview.setContent(content);
-                    movieReviews.add(movieReview);
+                    MovieReview review = new MovieReview();
+                    review.setAuthor(author);
+                    review.setContent(content);
+                    movieReviews.add(review);
                 }
                 for (MovieReview mr : movieReviews) {
                     Log.v("MOVIE_DETAILS_REVIEW", mr.toString());
-
                 }
+                mReviewsAdapter.setReviewsData(movieReviews);
 
             } catch (JSONException e) {
                 e.printStackTrace();
