@@ -5,4 +5,5 @@
     <string name="movie_poster_description">movie poster taken from movie db</string>
     <string name="most_popular">most popular</string>
     <string name="highest_rate">highest rate</string>
+    <string name="favorite">favorite</string>
 </resources>

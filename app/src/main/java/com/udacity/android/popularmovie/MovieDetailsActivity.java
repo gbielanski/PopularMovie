@@ -58,7 +58,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
 
     public static final String[] MOVIE_DETAIL_PROJECTION = {COLUMN_MOVIE_ID};
 
-    public static final int INDEX_MOVIE_ID = 0;
+    private static final int INDEX_MOVIE_ID = 0;
 
     private static final int ID_DETAIL_LOADER = 222;
 

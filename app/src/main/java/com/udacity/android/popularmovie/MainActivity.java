@@ -2,13 +2,18 @@ package com.udacity.android.popularmovie;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.udacity.android.popularmovie.adapter.MoviePosterAdapter;
+import com.udacity.android.popularmovie.data.MovieContract;
 import com.udacity.android.popularmovie.data.MovieData;
 
 import org.json.JSONArray;
@@ -27,6 +33,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
+import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW;
+import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH;
+import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE;
+import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_TITLE;
+import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_VOTES;
 import static com.udacity.android.popularmovie.utils.MovieUtils.EXTRA_MOVIE_DETAILS;
 import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_MOVIE_ID;
 import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_ORIGINAL_TITLE;
@@ -35,10 +47,27 @@ import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_POSTER_PATH
 import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_RELEASE_DATE;
 import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_RESULTS;
 import static com.udacity.android.popularmovie.utils.MovieUtils.JSON_VOTE_AVERAGE;
+import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_FAVORITE;
 import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_POPULAR;
 import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_RATE;
 
-public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler {
+public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int ID_LOADER = 111;
+    public static final String[] MOVIE_DETAIL_PROJECTION = {
+            COLUMN_MOVIE_TITLE,
+            COLUMN_MOVIE_POSTER_PATH,
+            COLUMN_MOVIE_OVERVIEW,
+            COLUMN_MOVIE_VOTES,
+            COLUMN_MOVIE_RELEASE,
+            COLUMN_MOVIE_ID,
+    };
+    private static final int INDEX_TITLE = 0;
+    private static final int INDEX_POSTER_PATH = 1;
+    private static final int INDEX_OVERVIEW = 2;
+    private static final int INDEX_VOTES = 3;
+    private static final int INDEX_RELEASE = 4;
+    private static final int INDEX_MOVIE_ID = 5;
 
     private MoviePosterAdapter mAdapter;
     @BindView(R.id.tv_error_message) TextView mErrorMessageTextView;
@@ -58,12 +87,17 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     }
 
     private void fetchMovieData(String sortType) {
-        if (isOnline()) {
+        if(sortType.equals(SORT_TYPE_POPULAR) || sortType.equals(SORT_TYPE_RATE)) {
+            if (isOnline()) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                new MovieQueryTask(new FetchMovieDataTaskCompleteListener())
+                        .execute(getString(R.string.movie_db_key), sortType);
+            } else
+                showErrorMessage(getString(R.string.error_string_connection));
+        }else{
             mProgressBar.setVisibility(View.VISIBLE);
-            new MovieQueryTask(new FetchMovieDataTaskCompleteListener())
-                    .execute(getString(R.string.movie_db_key), sortType);
-        } else
-            showErrorMessage(getString(R.string.error_string_connection));
+            getSupportLoaderManager().restartLoader(ID_LOADER, null, this);
+        }
     }
 
     private boolean isOnline() {
@@ -98,7 +132,59 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 
     }
 
-        public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String>
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
+        switch (loaderId) {
+            case ID_LOADER:
+                return new CursorLoader(this,
+                        MovieContract.MovieEntry.CONTENT_URI,
+                        MOVIE_DETAIL_PROJECTION,
+                        null,
+                        null,
+                        null);
+
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + loaderId);
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mErrorMessageTextView.setVisibility(View.INVISIBLE);
+
+        ArrayList<MovieData> movieDataArray = new ArrayList<>();
+        boolean cursorHasValidData = false;
+        if (data != null && data.moveToFirst()) {
+            cursorHasValidData = true;
+        }
+
+        if (!cursorHasValidData)
+            return;
+
+        do{
+            MovieData movie = new MovieData();
+
+            movie.setOriginalTitle(data.getString(INDEX_TITLE));
+            movie.setPosterPath(data.getString(INDEX_POSTER_PATH));
+            movie.setOverview(data.getString(INDEX_OVERVIEW));
+            movie.setVoteAverage(data.getDouble(INDEX_VOTES));
+            movie.setReleaseDate(data.getString(INDEX_RELEASE));
+            movie.setId(data.getInt(INDEX_MOVIE_ID));
+
+            movieDataArray.add(movie);
+        }while (data.moveToNext());
+        mAdapter.addMovieData(movieDataArray);
+        data.close();
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
+
+    public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String>
         {
             @Override
             public void onTaskComplete(String movieQueryResult)
@@ -149,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
             return true;
         } else if (item.getItemId() == R.id.highest_rate) {
             fetchMovieData(SORT_TYPE_RATE);
+            return true;
+        }else if (item.getItemId() == R.id.favorite) {
+            fetchMovieData(SORT_TYPE_FAVORITE);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -4,6 +4,7 @@ package com.udacity.android.popularmovie.utils;
 public class MovieUtils {
     public static final String SORT_TYPE_RATE = "RATE";
     public static final String SORT_TYPE_POPULAR = "POPULAR";
+    public static final String SORT_TYPE_FAVORITE = "FAVORITE";
     public static final String MOVIE_DETAIL_TRAILERS = "TRAILER";
     public static final String MOVIE_DETAIL_REVIEWS= "REVIEWS";
     public static final String EXTRA_MOVIE_DETAILS = "MOVIE_DETAILS";
