@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:id="@+id/fav_button"
                 app:mfb_animate_favorite="true"
                 app:mfb_animate_unfavorite="false"
                 app:mfb_bounce_duration="300"

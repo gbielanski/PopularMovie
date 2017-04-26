@@ -17,12 +17,12 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_MOVIE_TABLE =
                 "CREATE TABLE " + MovieContract.MovieEntry.TABLE_NAME + " ( " +
-                        MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT " +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT_NOT_NULL " +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH + " TEXT_NOT_NULL " +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW  + " TEXT_NOT_NULL " +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_VOTES + " REAL NOT NULL " +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE + " TEXT NOT NULL " +
+                        MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL, " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH + " TEXT NOT NULL, " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW  + " TEXT NOT NULL, " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_VOTES + " REAL NOT NULL, " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE + " TEXT NOT NULL, " +
                         MovieContract.MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL " +
                 ");";
 

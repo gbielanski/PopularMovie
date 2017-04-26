@@ -1,5 +1,6 @@
 package com.udacity.android.popularmovie.data;
 
+import android.annotation.TargetApi;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -8,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import static android.R.attr.id;
 
 public class MovieProvider extends ContentProvider{
 
@@ -61,6 +65,7 @@ public class MovieProvider extends ContentProvider{
             default:
                 throw new UnsupportedOperationException("Unknown uri" + uri);
         }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -73,15 +78,24 @@ public class MovieProvider extends ContentProvider{
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        Uri returnUri;
         final SQLiteDatabase db = movieDbHelper.getWritableDatabase();
-        long id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
-        if (id!=-1)
-            returnUri = uri;
-        else
-            returnUri = null;
 
-        return returnUri;
+        String movieId = uri.getLastPathSegment();
+        long id;
+        switch(sUriMatcher.match(uri)){
+            case CODE_MOVIE_WITH_ID:
+                id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
+                break;
+            default:
+                throw new UnsupportedOperationException("Invalid uri " + uri);
+        }
+
+        if(id==-1)
+            Log.v("FAV", "NOT INSERTED " + movieId);
+        else
+            Log.v("FAV", "INSERTED " + movieId);
+
+        return uri;
     }
 
     @Override
@@ -109,6 +123,7 @@ public class MovieProvider extends ContentProvider{
             default:
                 throw new UnsupportedOperationException("Invalid uri" + uri);
         }
+        Log.v("FAV", "DELETE " + numberOfRows);
         return numberOfRows;
     }
 

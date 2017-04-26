@@ -25,7 +25,7 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     private ArrayList<MovieTrailer> mMovieTrailersData = new ArrayList<>();
     private final OnClickMovieTrailerHandler mClickHandler;
 
-    interface OnClickMovieTrailerHandler{
+    public interface OnClickMovieTrailerHandler{
         void onMovieTrailerClick(int position);
     }
 
