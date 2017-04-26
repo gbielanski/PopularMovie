@@ -17,8 +17,12 @@ public class MovieContract {
 
         public static final String TABLE_NAME = "movie";
 
-        public static final String COLUMN_MOVIE_ID = "movie_id";
+        public static final String COLUMN_MOVIE_TITLE = "movie_title";
         public static final String COLUMN_MOVIE_POSTER_PATH = "movie_poster_path";
+        public static final String COLUMN_MOVIE_OVERVIEW = "movie_overview";
+        public static final String COLUMN_MOVIE_VOTES = "movie_votes";
+        public static final String COLUMN_MOVIE_RELEASE = "movie_release";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
 
         public static Uri buildMovieUriWithId(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).build();

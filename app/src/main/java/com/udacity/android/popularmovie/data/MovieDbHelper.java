@@ -1,7 +1,6 @@
 package com.udacity.android.popularmovie.data;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -19,8 +18,13 @@ public class MovieDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_MOVIE_TABLE =
                 "CREATE TABLE " + MovieContract.MovieEntry.TABLE_NAME + " ( " +
                         MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT " +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL" +
-                        MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH + "TEXT_NOT_NULL";
+                        MovieContract.MovieEntry.COLUMN_MOVIE_TITLE + " TEXT_NOT_NULL " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH + " TEXT_NOT_NULL " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW  + " TEXT_NOT_NULL " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_VOTES + " REAL NOT NULL " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE + " TEXT NOT NULL " +
+                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + " INTEGER NOT NULL " +
+                ");";
 
         db.execSQL(SQL_CREATE_MOVIE_TABLE);
     }
