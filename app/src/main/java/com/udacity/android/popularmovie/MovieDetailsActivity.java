@@ -12,6 +12,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.popularmovie.adapter.MovieReviewsAdapter;
+import com.udacity.android.popularmovie.adapter.MovieTrailersAdapter;
 import com.udacity.android.popularmovie.data.MovieData;
 import com.udacity.android.popularmovie.data.MovieReview;
 import com.udacity.android.popularmovie.data.MovieTrailer;
@@ -26,7 +28,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.R.attr.key;
 import static android.support.v7.widget.LinearLayoutManager.*;
 import static com.udacity.android.popularmovie.utils.MovieUtils.EXTRA_MOVIE_DETAILS;
 import static com.udacity.android.popularmovie.utils.MovieUtils.IMG_SIZE;

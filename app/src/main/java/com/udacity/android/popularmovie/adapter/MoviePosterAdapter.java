@@ -1,4 +1,4 @@
-package com.udacity.android.popularmovie;
+package com.udacity.android.popularmovie.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.popularmovie.R;
 import com.udacity.android.popularmovie.data.MovieData;
 
 import java.util.ArrayList;
@@ -18,16 +19,21 @@ import butterknife.ButterKnife;
 import static com.udacity.android.popularmovie.utils.MovieUtils.IMG_SIZE;
 import static com.udacity.android.popularmovie.utils.MovieUtils.PATH;
 
-class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieViewHolder> {
+public class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieViewHolder> {
 
-    ArrayList<MovieData> mMovieData = new ArrayList<>();
+    private ArrayList<MovieData> mMovieData = new ArrayList<>();
+
     private final OnClickMoviePosterHandler mClickHandler;
 
-    MoviePosterAdapter(OnClickMoviePosterHandler mClickHandler) {
+    public ArrayList<MovieData> getMovieData() {
+        return mMovieData;
+    }
+
+    public MoviePosterAdapter(OnClickMoviePosterHandler mClickHandler) {
         this.mClickHandler = mClickHandler;
     }
 
-    interface OnClickMoviePosterHandler {
+    public interface OnClickMoviePosterHandler {
         void moviePosterOnClick(int position);
     }
 
@@ -55,7 +61,7 @@ class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.MovieVi
         return mMovieData.size();
     }
 
-    void addMovieData(ArrayList<MovieData> movieData){
+    public void addMovieData(ArrayList<MovieData> movieData){
         mMovieData = movieData;
         notifyDataSetChanged();
     }

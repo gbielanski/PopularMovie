@@ -1,4 +1,4 @@
-package com.udacity.android.popularmovie;
+package com.udacity.android.popularmovie.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.android.popularmovie.R;
 import com.udacity.android.popularmovie.data.MovieTrailer;
 import com.udacity.android.popularmovie.utils.NetworkUtils;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdapter.TrailerViewHolder>{
+public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdapter.TrailerViewHolder>{
     public MovieTrailer getMovieTrailersData(int idx) {
         return mMovieTrailersData.get(idx);
     }

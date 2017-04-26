@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.udacity.android.popularmovie.adapter.MoviePosterAdapter;
 import com.udacity.android.popularmovie.data.MovieData;
 
 import org.json.JSONArray;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     public void moviePosterOnClick(int position) {
         Class movieDetailedClass = MovieDetailsActivity.class;
         Intent intent = new Intent(this, movieDetailedClass);
-        intent.putExtra(EXTRA_MOVIE_DETAILS, mAdapter.mMovieData.get(position));
+        intent.putExtra(EXTRA_MOVIE_DETAILS, mAdapter.getMovieData().get(position));
         startActivity(intent);
     }
 

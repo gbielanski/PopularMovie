@@ -1,4 +1,4 @@
-package com.udacity.android.popularmovie;
+package com.udacity.android.popularmovie.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.udacity.android.popularmovie.R;
 import com.udacity.android.popularmovie.data.MovieReview;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ReviewViewHolder>{
+public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ReviewViewHolder>{
     private List<MovieReview> mReviewsData = new ArrayList<>();
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
