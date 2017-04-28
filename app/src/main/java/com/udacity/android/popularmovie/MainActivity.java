@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.PersistableBundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     private static final int INDEX_RELEASE = 4;
     private static final int INDEX_MOVIE_ID = 5;
 
+	private String mFetchDataType = SORT_TYPE_POPULAR;
+	private String FETCH_DATA_TYPE = "FETCH_DATA_TYPE";
+
     private MoviePosterAdapter mAdapter;
     @BindView(R.id.tv_error_message) TextView mErrorMessageTextView;
     @BindView(R.id.pb_loading_progress) ProgressBar mProgressBar;
@@ -83,10 +87,10 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
-        fetchMovieData(SORT_TYPE_POPULAR);
     }
 
     private void fetchMovieData(String sortType) {
+		mFetchDataType = sortType;
         if(sortType.equals(SORT_TYPE_POPULAR) || sortType.equals(SORT_TYPE_RATE)) {
             if (isOnline()) {
                 mProgressBar.setVisibility(View.VISIBLE);
@@ -100,7 +104,31 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         }
     }
 
-    private boolean isOnline() {
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(FETCH_DATA_TYPE, mFetchDataType);
+		Log.v("HOP", "HOP " + mFetchDataType);
+
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+		mFetchDataType = savedInstanceState.getString(FETCH_DATA_TYPE);
+		Log.v("HOP", "HOP " + mFetchDataType);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		fetchMovieData(mFetchDataType);
+	}
+
+	private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -160,8 +188,10 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
             cursorHasValidData = true;
         }
 
-        if (!cursorHasValidData)
-            return;
+        if (!cursorHasValidData) {
+			mAdapter.addMovieData(movieDataArray);
+			return;
+		}
 
         do{
             MovieData movie = new MovieData();
