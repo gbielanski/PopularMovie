@@ -6,4 +6,5 @@
     <string name="most_popular">most popular</string>
     <string name="highest_rate">highest rate</string>
     <string name="favorite">favorite</string>
+    <string name="transition_photo">transition photo</string>
 </resources>

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.PersistableBundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -132,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 	private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(cm == null)
+            return false;
+
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
@@ -147,12 +149,17 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     }
 
     @Override
-    public void moviePosterOnClick(int position) {
+    public void moviePosterOnClick(int position, View posterView) {
         Class movieDetailedClass = MovieDetailsActivity.class;
         Intent intent = new Intent(this, movieDetailedClass);
         intent.putExtra(EXTRA_MOVIE_DETAILS, mAdapter.getMovieData().get(position));
 
-        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle();
+        Bundle bundle = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                    posterView,
+                    posterView.getTransitionName()).toBundle();
+        }
 
         startActivity(intent, bundle);
     }

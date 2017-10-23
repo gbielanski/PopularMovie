@@ -34,7 +34,7 @@ public class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.
     }
 
     public interface OnClickMoviePosterHandler {
-        void moviePosterOnClick(int position);
+        void moviePosterOnClick(int position, View v);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterAdapter.
 
         @Override
         public void onClick(View v) {
-            mClickHandler.moviePosterOnClick(getAdapterPosition());
+            mClickHandler.moviePosterOnClick(getAdapterPosition(), v);
         }
     }
 }
