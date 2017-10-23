@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.PersistableBundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -150,7 +151,10 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         Class movieDetailedClass = MovieDetailsActivity.class;
         Intent intent = new Intent(this, movieDetailedClass);
         intent.putExtra(EXTRA_MOVIE_DETAILS, mAdapter.getMovieData().get(position));
-        startActivity(intent);
+
+        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle();
+
+        startActivity(intent, bundle);
     }
 
     private void showErrorMessage(String errorMsg){
