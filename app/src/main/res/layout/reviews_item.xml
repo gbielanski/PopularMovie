@@ -7,12 +7,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/author"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/margin_large"/>
+        android:layout_marginTop="@dimen/margin_large"
+        style="@style/AnotherStyle"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/review"
         android:layout_marginBottom="@dimen/margin_medium"
+        style="@style/AnotherStyle"
         />
     <TextView
         android:layout_width="match_parent"
