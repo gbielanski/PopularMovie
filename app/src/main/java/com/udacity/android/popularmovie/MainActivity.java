@@ -1,5 +1,6 @@
 package com.udacity.android.popularmovie;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -72,13 +74,16 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     private static final int INDEX_RELEASE = 4;
     private static final int INDEX_MOVIE_ID = 5;
 
-	private String mFetchDataType = SORT_TYPE_POPULAR;
-	private String FETCH_DATA_TYPE = "FETCH_DATA_TYPE";
+    private String mFetchDataType = SORT_TYPE_POPULAR;
+    private String FETCH_DATA_TYPE = "FETCH_DATA_TYPE";
 
     private MoviePosterAdapter mAdapter;
-    @BindView(R.id.tv_error_message) TextView mErrorMessageTextView;
-    @BindView(R.id.pb_loading_progress) ProgressBar mProgressBar;
-    @BindView(R.id.rc_movie_grid) RecyclerView mRecyclerView;
+    @BindView(R.id.tv_error_message)
+    TextView mErrorMessageTextView;
+    @BindView(R.id.pb_loading_progress)
+    ProgressBar mProgressBar;
+    @BindView(R.id.rc_movie_grid)
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
-        if(supportActionBar != null)
+        if (supportActionBar != null)
             supportActionBar.setDisplayShowTitleEnabled(false);
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -97,48 +102,48 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     }
 
     private void fetchMovieData(String sortType) {
-		mFetchDataType = sortType;
-        if(sortType.equals(SORT_TYPE_POPULAR) || sortType.equals(SORT_TYPE_RATE)) {
+        mFetchDataType = sortType;
+        if (sortType.equals(SORT_TYPE_POPULAR) || sortType.equals(SORT_TYPE_RATE)) {
             if (isOnline()) {
                 mProgressBar.setVisibility(View.VISIBLE);
                 new MovieQueryTask(new FetchMovieDataTaskCompleteListener())
                         .execute(getString(R.string.movie_db_key), sortType);
             } else
                 showErrorMessage(getString(R.string.error_string_connection));
-        }else{
+        } else {
             mProgressBar.setVisibility(View.VISIBLE);
             getSupportLoaderManager().restartLoader(ID_LOADER, null, this);
         }
     }
 
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(FETCH_DATA_TYPE, mFetchDataType);
-		Log.v("HOP", "HOP " + mFetchDataType);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(FETCH_DATA_TYPE, mFetchDataType);
+        Log.v("HOP", "HOP " + mFetchDataType);
 
-	}
+    }
 
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-		mFetchDataType = savedInstanceState.getString(FETCH_DATA_TYPE);
-		Log.v("HOP", "HOP " + mFetchDataType);
+        mFetchDataType = savedInstanceState.getString(FETCH_DATA_TYPE);
+        Log.v("HOP", "HOP " + mFetchDataType);
 
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		fetchMovieData(mFetchDataType);
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchMovieData(mFetchDataType);
+    }
 
-	private boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(cm == null)
+        if (cm == null)
             return false;
 
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -157,6 +162,15 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
 
     @Override
     public void moviePosterOnClick(int position, View posterView) {
+        int finalRadious = (int) Math.hypot(posterView.getWidth() / 2, posterView.getHeight() / 2);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Animator anim = ViewAnimationUtils.createCircularReveal(posterView,
+                    (int) posterView.getWidth() / 2,
+                    (int) posterView.getHeight() / 2,
+                    0, finalRadious);
+            anim.start();
+        }
+
         Class movieDetailedClass = MovieDetailsActivity.class;
         Intent intent = new Intent(this, movieDetailedClass);
         intent.putExtra(EXTRA_MOVIE_DETAILS, mAdapter.getMovieData().get(position));
@@ -171,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         startActivity(intent, bundle);
     }
 
-    private void showErrorMessage(String errorMsg){
+    private void showErrorMessage(String errorMsg) {
         mErrorMessageTextView.setText(errorMsg);
         mErrorMessageTextView.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.INVISIBLE);
@@ -207,11 +221,11 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         }
 
         if (!cursorHasValidData) {
-			mAdapter.addMovieData(movieDataArray);
-			return;
-		}
+            mAdapter.addMovieData(movieDataArray);
+            return;
+        }
 
-        do{
+        do {
             MovieData movie = new MovieData();
 
             movie.setOriginalTitle(data.getString(INDEX_TITLE));
@@ -222,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
             movie.setId(data.getInt(INDEX_MOVIE_ID));
 
             movieDataArray.add(movie);
-        }while (data.moveToNext());
+        } while (data.moveToNext());
         mAdapter.addMovieData(movieDataArray);
         data.close();
 
@@ -232,43 +246,41 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String>
-        {
-            @Override
-            public void onTaskComplete(String movieQueryResult)
-            {
-                mProgressBar.setVisibility(View.INVISIBLE);
-                if(movieQueryResult!=null)
-                    showMovieData(movieQueryResult);
-                else
-                    showErrorMessage(getString(R.string.error_string));
-            }
-
-            private void showMovieData(String movieQueryResult) {
-                mRecyclerView.setVisibility(View.VISIBLE);
-                mErrorMessageTextView.setVisibility(View.INVISIBLE);
-                ArrayList<MovieData> movieDataArray = new ArrayList<>();
-                try {
-                    JSONObject movieQueryJSON = new JSONObject(movieQueryResult);
-                    JSONArray movieJSONArray = movieQueryJSON.getJSONArray(JSON_RESULTS);
-                    for(int i =0; i<movieJSONArray.length(); i++){
-                        JSONObject movieJSONObject = movieJSONArray.getJSONObject(i);
-                        MovieData movieData = new MovieData();
-                        movieData.setOriginalTitle(movieJSONObject.getString(JSON_ORIGINAL_TITLE));
-                        movieData.setPosterPath(movieJSONObject.getString(JSON_POSTER_PATH));
-                        movieData.setOverview(movieJSONObject.getString(JSON_OVERVIEW));
-                        movieData.setVoteAverage(movieJSONObject.getDouble(JSON_VOTE_AVERAGE));
-                        movieData.setReleaseDate(movieJSONObject.getString(JSON_RELEASE_DATE));
-                        movieData.setId(movieJSONObject.getInt(JSON_MOVIE_ID));
-                        movieDataArray.add(movieData);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if(movieDataArray.size() > 0)
-                    mAdapter.addMovieData(movieDataArray);
-            }
+    public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String> {
+        @Override
+        public void onTaskComplete(String movieQueryResult) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            if (movieQueryResult != null)
+                showMovieData(movieQueryResult);
+            else
+                showErrorMessage(getString(R.string.error_string));
         }
+
+        private void showMovieData(String movieQueryResult) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mErrorMessageTextView.setVisibility(View.INVISIBLE);
+            ArrayList<MovieData> movieDataArray = new ArrayList<>();
+            try {
+                JSONObject movieQueryJSON = new JSONObject(movieQueryResult);
+                JSONArray movieJSONArray = movieQueryJSON.getJSONArray(JSON_RESULTS);
+                for (int i = 0; i < movieJSONArray.length(); i++) {
+                    JSONObject movieJSONObject = movieJSONArray.getJSONObject(i);
+                    MovieData movieData = new MovieData();
+                    movieData.setOriginalTitle(movieJSONObject.getString(JSON_ORIGINAL_TITLE));
+                    movieData.setPosterPath(movieJSONObject.getString(JSON_POSTER_PATH));
+                    movieData.setOverview(movieJSONObject.getString(JSON_OVERVIEW));
+                    movieData.setVoteAverage(movieJSONObject.getDouble(JSON_VOTE_AVERAGE));
+                    movieData.setReleaseDate(movieJSONObject.getString(JSON_RELEASE_DATE));
+                    movieData.setId(movieJSONObject.getInt(JSON_MOVIE_ID));
+                    movieDataArray.add(movieData);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (movieDataArray.size() > 0)
+                mAdapter.addMovieData(movieDataArray);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -284,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         } else if (item.getItemId() == R.id.highest_rate) {
             fetchMovieData(SORT_TYPE_RATE);
             return true;
-        }else if (item.getItemId() == R.id.favorite) {
+        } else if (item.getItemId() == R.id.favorite) {
             fetchMovieData(SORT_TYPE_FAVORITE);
             return true;
         }

@@ -1,9 +1,12 @@
 package com.udacity.android.popularmovie.adapter;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -69,7 +72,15 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View trailerView) {
+            int finalRadious = (int) Math.hypot(trailerView.getWidth() / 2, trailerView.getHeight() / 2);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Animator anim = ViewAnimationUtils.createCircularReveal(trailerView,
+                        (int) trailerView.getWidth() / 2,
+                        (int) trailerView.getHeight() / 2,
+                        0, finalRadious);
+                anim.start();
+            }
             mClickHandler.onMovieTrailerClick(getAdapterPosition());
         }
     }

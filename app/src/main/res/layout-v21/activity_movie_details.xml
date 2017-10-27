@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_medium"
             android:background="#fff"
-            android:elevation="2dp"
+            android:elevation="4dp"
             android:orientation="horizontal"
             android:padding="@dimen/padding_medium">
 
@@ -113,14 +113,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="#fff"
-                android:elevation="2dp" />
+                android:elevation="4dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rc_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
-                android:elevation="2dp"
+                android:elevation="4dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp" />
         </LinearLayout>
