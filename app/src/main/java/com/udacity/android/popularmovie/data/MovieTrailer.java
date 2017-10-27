@@ -5,7 +5,7 @@ package com.udacity.android.popularmovie.data;
  */
 
 public class MovieTrailer {
-    String trailerKey;
+    private String trailerKey;
     public String getTrailerKey() {
         return trailerKey;
     }

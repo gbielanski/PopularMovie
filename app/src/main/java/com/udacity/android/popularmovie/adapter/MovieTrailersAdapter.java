@@ -65,7 +65,7 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
 
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.img_trailer_item) ImageView mTrailerImg;
-        public TrailerViewHolder(View itemView) {
+        TrailerViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);

@@ -100,28 +100,25 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         mReviewsAdapter = new MovieReviewsAdapter();
         rcReviews.setAdapter(mReviewsAdapter);
 
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(mMovieData.getId().toString()).build();
-                if(favoriteButton.isFavorite() == false)
-                {
-                    ContentValues cv = new ContentValues();
-                    cv.put(COLUMN_MOVIE_TITLE, mMovieData.getOriginalTitle());
-                    cv.put(COLUMN_MOVIE_POSTER_PATH, mMovieData.getPosterPath());
-                    cv.put(COLUMN_MOVIE_VOTES, mMovieData.getVoteAverage());
-                    cv.put(COLUMN_MOVIE_RELEASE, mMovieData.getReleaseDate());
-                    cv.put(COLUMN_MOVIE_ID, mMovieData.getId());
-                    cv.put(COLUMN_MOVIE_OVERVIEW, mMovieData.getOverview());
-                    getContentResolver().insert(uri, cv);
-                }else{
-                    getContentResolver().delete(uri, null, null);
-                }
-
-                Log.v("FAV", "PRESSED " + favoriteButton.isFavorite());
-                favoriteButton.toggleFavorite();
-
+        favoriteButton.setOnClickListener(v -> {
+            Uri uri = MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(mMovieData.getId().toString()).build();
+            if(!favoriteButton.isFavorite())
+            {
+                ContentValues cv = new ContentValues();
+                cv.put(COLUMN_MOVIE_TITLE, mMovieData.getOriginalTitle());
+                cv.put(COLUMN_MOVIE_POSTER_PATH, mMovieData.getPosterPath());
+                cv.put(COLUMN_MOVIE_VOTES, mMovieData.getVoteAverage());
+                cv.put(COLUMN_MOVIE_RELEASE, mMovieData.getReleaseDate());
+                cv.put(COLUMN_MOVIE_ID, mMovieData.getId());
+                cv.put(COLUMN_MOVIE_OVERVIEW, mMovieData.getOverview());
+                getContentResolver().insert(uri, cv);
+            }else{
+                getContentResolver().delete(uri, null, null);
             }
+
+            Log.v("FAV", "PRESSED " + favoriteButton.isFavorite());
+            favoriteButton.toggleFavorite();
+
         });
 
         String ApiKey = getString(R.string.movie_db_key);

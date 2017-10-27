@@ -16,8 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ReviewViewHolder>{
+public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapter.ReviewViewHolder> {
     private List<MovieReview> mReviewsData = new ArrayList<>();
+
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -38,15 +39,18 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
         return mReviewsData.size();
     }
 
-    public void setReviewsData(List<MovieReview> reviewsData){
+    public void setReviewsData(List<MovieReview> reviewsData) {
         mReviewsData = reviewsData;
         notifyDataSetChanged();
     }
 
-    public class ReviewViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.author) TextView author;
-        @BindView(R.id.review) TextView review;
-        public ReviewViewHolder(View itemView) {
+    class ReviewViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.author)
+        TextView author;
+        @BindView(R.id.review)
+        TextView review;
+
+        ReviewViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

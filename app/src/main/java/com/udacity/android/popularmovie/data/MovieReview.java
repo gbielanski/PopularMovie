@@ -1,12 +1,8 @@
 package com.udacity.android.popularmovie.data;
 
-/**
- * Created by Grzegorz on 22.04.2017.
- */
-
 public class MovieReview {
-    String author;
-    String content;
+    private String author;
+    private String content;
 
     public String getAuthor() {
         return author;
