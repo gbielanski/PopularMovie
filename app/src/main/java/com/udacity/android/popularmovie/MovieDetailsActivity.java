@@ -67,13 +67,13 @@ public class MovieDetailsActivity extends AppCompatActivity implements
 
     @BindView(R.id.tv_movie_title) TextView tv_movie_title;
     @BindView(R.id.tv_movie_release_date) TextView tv_movie_release_date;
-    @BindView(R.id.img_poster_item_in_details) ImageView imgMoviePoster;
     @BindView(R.id.tv_rating) TextView tv_rating;
     @BindView(R.id.rb_rating) RatingBar rbRating;
     @BindView(R.id.tv_overview) TextView tvOverview;
     @BindView(R.id.rc_trailers) RecyclerView rcTrailers;
     @BindView(R.id.rc_reviews) RecyclerView rcReviews;
     @BindView(R.id.fav_button) MaterialFavoriteButton favoriteButton;
+    @BindView(R.id.img_poster_item_in_details) ImageView imgPosterImageView;
 
     private MovieData mMovieData;
 
@@ -85,7 +85,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         mMovieData = getIntent().getParcelableExtra(EXTRA_MOVIE_DETAILS);
         tv_movie_title.setText(mMovieData.getOriginalTitle());
         tv_movie_release_date.setText(mMovieData.getReleaseDate());
-        Picasso.with(this).load(PATH + IMG_SIZE + mMovieData.getPosterPath()).into(imgMoviePoster);
+        Picasso.with(this).load(PATH + IMG_SIZE + mMovieData.getPosterPath()).into(imgPosterImageView);
         tv_rating.setText(mMovieData.getVoteAverage().toString());
         rbRating.setRating(mMovieData.getVoteAverage().floatValue());
         tvOverview.setText(mMovieData.getOverview());
