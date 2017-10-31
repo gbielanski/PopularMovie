@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
@@ -74,6 +77,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
     @BindView(R.id.rc_reviews) RecyclerView rcReviews;
     @BindView(R.id.fav_button) MaterialFavoriteButton favoriteButton;
     @BindView(R.id.img_poster_item_in_details) ImageView imgPosterImageView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     private MovieData mMovieData;
 
@@ -82,6 +86,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         ButterKnife.bind(this);
+
         mMovieData = getIntent().getParcelableExtra(EXTRA_MOVIE_DETAILS);
         tv_movie_title.setText(mMovieData.getOriginalTitle());
         tv_movie_release_date.setText(mMovieData.getReleaseDate());
@@ -89,6 +94,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         tv_rating.setText(mMovieData.getVoteAverage().toString());
         rbRating.setRating(mMovieData.getVoteAverage().floatValue());
         tvOverview.setText(mMovieData.getOverview());
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayoutManager horizontalLinearLayoutManager = new LinearLayoutManager(this, HORIZONTAL, false);
         rcTrailers.setLayoutManager(horizontalLinearLayoutManager);
@@ -143,6 +151,17 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         if(trailerIntent.resolveActivity(getPackageManager())!=null){
             startActivity(trailerIntent);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

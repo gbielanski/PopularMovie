@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar != null)
-            supportActionBar.setDisplayShowTitleEnabled(false);
+//        if (supportActionBar != null)
+//            supportActionBar.setDisplayShowTitleEnabled(false);
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MoviePosterAdapter(this);

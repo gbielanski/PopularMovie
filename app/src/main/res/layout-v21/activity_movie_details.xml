@@ -27,7 +27,9 @@
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition_photo" />
-
+            <View android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#4D000000"/>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

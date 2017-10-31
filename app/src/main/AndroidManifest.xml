@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MovieDetailsActivity"/>
+        <activity android:name=".MovieDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.udacity.android.popularmovie.MainActivity" />
+        </activity>
         <provider
             android:authorities="com.udacity.android.popularmovie"
             android:name=".data.MovieProvider"
