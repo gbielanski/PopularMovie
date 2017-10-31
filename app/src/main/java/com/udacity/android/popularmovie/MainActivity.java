@@ -121,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(FETCH_DATA_TYPE, mFetchDataType);
-        Log.v("HOP", "HOP " + mFetchDataType);
-
     }
 
     @Override
@@ -130,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         super.onRestoreInstanceState(savedInstanceState);
 
         mFetchDataType = savedInstanceState.getString(FETCH_DATA_TYPE);
-        Log.v("HOP", "HOP " + mFetchDataType);
-
     }
 
     @Override

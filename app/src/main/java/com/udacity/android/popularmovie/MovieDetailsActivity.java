@@ -115,8 +115,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements
             }else{
                 getContentResolver().delete(uri, null, null);
             }
-
-            Log.v("FAV", "PRESSED " + favoriteButton.isFavorite());
             favoriteButton.toggleFavorite();
 
         });
@@ -172,11 +170,9 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         }
 
         if (!cursorHasValidData) {
-            Log.v("FAVBET", "NO FAV");
             favoriteButton.setFavorite(false);
             return;
-        }else
-            Log.v("FAVBET", "FAV");
+        }
 
         if(data.getInt(INDEX_MOVIE_ID) == mMovieData.getId())
             favoriteButton.setFavorite(true);
@@ -242,9 +238,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
                     review.setContent(content);
                     movieReviews.add(review);
                 }
-                for (MovieReview mr : movieReviews) {
-                    Log.v("MOVIE_DETAILS_REVIEW", mr.toString());
-                }
+
                 mReviewsAdapter.setReviewsData(movieReviews);
 
             } catch (JSONException e) {

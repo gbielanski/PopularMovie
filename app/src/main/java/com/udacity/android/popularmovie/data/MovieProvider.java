@@ -90,11 +90,6 @@ public class MovieProvider extends ContentProvider{
                 throw new UnsupportedOperationException("Invalid uri " + uri);
         }
 
-        if(id==-1)
-            Log.v("FAV", "NOT INSERTED " + movieId);
-        else
-            Log.v("FAV", "INSERTED " + movieId);
-
         return uri;
     }
 
@@ -123,7 +118,6 @@ public class MovieProvider extends ContentProvider{
             default:
                 throw new UnsupportedOperationException("Invalid uri" + uri);
         }
-        Log.v("FAV", "DELETE " + numberOfRows);
         return numberOfRows;
     }
 
