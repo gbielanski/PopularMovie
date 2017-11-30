@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
 
 import static android.R.attr.data;
 import static android.support.v7.widget.LinearLayoutManager.*;
+import static com.udacity.android.popularmovie.PopularMovieCursorLoader.ID_DETAIL_LOADER;
 import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_ID;
 import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_OVERVIEW;
 import static com.udacity.android.popularmovie.data.MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_PATH;
@@ -57,13 +58,9 @@ import static com.udacity.android.popularmovie.utils.MovieUtils.PATH;
 
 public class MovieDetailsActivity extends AppCompatActivity implements
         MovieTrailersAdapter.OnClickMovieTrailerHandler,
-        LoaderManager.LoaderCallbacks<Cursor>{
-
-    public static final String[] MOVIE_DETAIL_PROJECTION = {COLUMN_MOVIE_ID};
+        PopularMovieCursorLoader.PopularMovieCursorLoaderInterface{
 
     private static final int INDEX_MOVIE_ID = 0;
-
-    private static final int ID_DETAIL_LOADER = 222;
 
     private MovieTrailersAdapter mTrailersAdapter;
     private MovieReviewsAdapter mReviewsAdapter;
@@ -135,7 +132,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
         new MovieDetailsQueryTask(new FetchMovieReviewsTaskCompleteListener())
                 .execute(ApiKey, MOVIE_DETAIL_REVIEWS, movieId);
 
-        getSupportLoaderManager().restartLoader(ID_DETAIL_LOADER, null, this);
+        getSupportLoaderManager().restartLoader(ID_DETAIL_LOADER, null, new PopularMovieCursorLoader(this, this));
     }
 
     @Override
@@ -165,24 +162,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-
-        switch (loaderId) {
-            case ID_DETAIL_LOADER:
-                return new CursorLoader(this,
-                        MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(mMovieData.getId().toString()).build(),
-                        MOVIE_DETAIL_PROJECTION,
-                        null,
-                        null,
-                        null);
-
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Cursor data) {
         boolean cursorHasValidData = false;
         if (data != null && data.moveToFirst()) {
             cursorHasValidData = true;
@@ -197,11 +177,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements
             favoriteButton.setFavorite(true);
 
         data.close();
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 

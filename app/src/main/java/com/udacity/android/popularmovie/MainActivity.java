@@ -56,17 +56,10 @@ import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_FAVORI
 import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_POPULAR;
 import static com.udacity.android.popularmovie.utils.MovieUtils.SORT_TYPE_RATE;
 
-public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler, LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements MoviePosterAdapter.OnClickMoviePosterHandler, PopularMovieCursorLoader.PopularMovieCursorLoaderInterface {
 
     private static final int ID_LOADER = 111;
-    public static final String[] MOVIE_DETAIL_PROJECTION = {
-            COLUMN_MOVIE_TITLE,
-            COLUMN_MOVIE_POSTER_PATH,
-            COLUMN_MOVIE_OVERVIEW,
-            COLUMN_MOVIE_VOTES,
-            COLUMN_MOVIE_RELEASE,
-            COLUMN_MOVIE_ID,
-    };
+
     private static final int INDEX_TITLE = 0;
     private static final int INDEX_POSTER_PATH = 1;
     private static final int INDEX_OVERVIEW = 2;
@@ -112,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
                 showErrorMessage(getString(R.string.error_string_connection));
         } else {
             mProgressBar.setVisibility(View.VISIBLE);
-            getSupportLoaderManager().restartLoader(ID_LOADER, null, this);
+            getSupportLoaderManager().restartLoader(ID_LOADER, null, new PopularMovieCursorLoader(this, this));
         }
     }
 
@@ -189,23 +182,7 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-        switch (loaderId) {
-            case ID_LOADER:
-                return new CursorLoader(this,
-                        MovieContract.MovieEntry.CONTENT_URI,
-                        MOVIE_DETAIL_PROJECTION,
-                        null,
-                        null,
-                        null);
-
-            default:
-                throw new RuntimeException("Loader Not Implemented: " + loaderId);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Cursor data) {
         mProgressBar.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mErrorMessageTextView.setVisibility(View.INVISIBLE);
@@ -236,10 +213,6 @@ public class MainActivity extends AppCompatActivity implements MoviePosterAdapte
         mAdapter.addMovieData(movieDataArray);
         data.close();
 
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
     }
 
     public class FetchMovieDataTaskCompleteListener implements AsyncTaskCompleteListener<String> {
